@@ -1,0 +1,533 @@
+getgenv().OldAimPart = "Head"
+getgenv().AimPart = "Head"
+    getgenv().AimlockKey = "e"
+    getgenv().AimRadius = 250
+    getgenv().ThirdPerson = true 
+    getgenv().FirstPerson = true
+    getgenv().TeamCheck = false
+    getgenv().PredictMovement = true
+    getgenv().PredictionVelocity = 0.121
+    getgenv().CheckIfJumped = true
+    getgenv().Smoothness = false
+    getgenv().SmoothnessAmount = 0.006
+
+    local Players, Uis, RService, SGui = game:GetService"Players", game:GetService"UserInputService", game:GetService"RunService", game:GetService"StarterGui";
+    local Client, Mouse, Camera, CF, RNew, Vec3, Vec2 = Players.LocalPlayer, Players.LocalPlayer:GetMouse(), workspace.CurrentCamera, CFrame.new, Ray.new, Vector3.new, Vector2.new;
+    local Aimlock, MousePressed, CanNotify = true, false, false;
+    local AimlockTarget;
+    local OldPre;
+    
+
+    
+    getgenv().WorldToViewportPoint = function(P)
+        return Camera:WorldToViewportPoint(P)
+    end
+    
+    getgenv().WorldToScreenPoint = function(P)
+        return Camera.WorldToScreenPoint(Camera, P)
+    end
+    
+    getgenv().GetObscuringObjects = function(T)
+        if T and T:FindFirstChild(getgenv().AimPart) and Client and Client.Character:FindFirstChild("Head") then 
+            local RayPos = workspace:FindPartOnRay(RNew(
+                T[getgenv().AimPart].Position, Client.Character.Head.Position)
+            )
+            if RayPos then return RayPos:IsDescendantOf(T) end
+        end
+    end
+    
+    getgenv().GetNearestTarget = function()
+        local players = {}
+        local PLAYER_HOLD  = {}
+        local DISTANCES = {}
+        for i, v in pairs(Players:GetPlayers()) do
+            if v ~= Client then
+                table.insert(players, v)
+            end
+        end
+        for i, v in pairs(players) do
+            if v.Character ~= nil then
+                local AIM = v.Character:FindFirstChild("Head")
+                if getgenv().TeamCheck == true and v.Team ~= Client.Team then
+                    local DISTANCE = (v.Character:FindFirstChild("Head").Position - game.Workspace.CurrentCamera.CFrame.p).magnitude
+                    local RAY = Ray.new(game.Workspace.CurrentCamera.CFrame.p, (Mouse.Hit.p - game.Workspace.CurrentCamera.CFrame.p).unit * DISTANCE)
+                    local HIT,POS = game.Workspace:FindPartOnRay(RAY, game.Workspace)
+                    local DIFF = math.floor((POS - AIM.Position).magnitude)
+                    PLAYER_HOLD[v.Name .. i] = {}
+                    PLAYER_HOLD[v.Name .. i].dist= DISTANCE
+                    PLAYER_HOLD[v.Name .. i].plr = v
+                    PLAYER_HOLD[v.Name .. i].diff = DIFF
+                    table.insert(DISTANCES, DIFF)
+                elseif getgenv().TeamCheck == false and v.Team == Client.Team then 
+                    local DISTANCE = (v.Character:FindFirstChild("Head").Position - game.Workspace.CurrentCamera.CFrame.p).magnitude
+                    local RAY = Ray.new(game.Workspace.CurrentCamera.CFrame.p, (Mouse.Hit.p - game.Workspace.CurrentCamera.CFrame.p).unit * DISTANCE)
+                    local HIT,POS = game.Workspace:FindPartOnRay(RAY, game.Workspace)
+                    local DIFF = math.floor((POS - AIM.Position).magnitude)
+                    PLAYER_HOLD[v.Name .. i] = {}
+                    PLAYER_HOLD[v.Name .. i].dist= DISTANCE
+                    PLAYER_HOLD[v.Name .. i].plr = v
+                    PLAYER_HOLD[v.Name .. i].diff = DIFF
+                    table.insert(DISTANCES, DIFF)
+                end
+            end
+        end
+        
+        if unpack(DISTANCES) == nil then
+            return nil
+        end
+        
+        local L_DISTANCE = math.floor(math.min(unpack(DISTANCES)))
+        if L_DISTANCE > getgenv().AimRadius then
+            return nil
+        end
+        
+        for i, v in pairs(PLAYER_HOLD) do
+            if v.diff == L_DISTANCE then
+                return v.plr
+            end
+        end
+        return nil
+    end
+    
+    Mouse.KeyDown:Connect(function(a)
+        if not (Uis:GetFocusedTextBox()) then 
+            if a == AimlockKey and AimlockTarget == nil then
+                pcall(function()
+                    if MousePressed ~= true then MousePressed = true end 
+                    local Target;Target = GetNearestTarget()
+                    if Target ~= nil then 
+                        AimlockTarget = Target
+                    end
+                end)
+            elseif a == AimlockKey and AimlockTarget ~= nil then
+                if AimlockTarget ~= nil then AimlockTarget = nil end
+                if MousePressed ~= false then 
+                    MousePressed = false 
+                end
+            end
+        end
+    end)
+    
+    RService.RenderStepped:Connect(function()
+        if getgenv().ThirdPerson == true and getgenv().FirstPerson == true then 
+            if (Camera.Focus.p - Camera.CoordinateFrame.p).Magnitude > 1 or (Camera.Focus.p - Camera.CoordinateFrame.p).Magnitude <= 1 then 
+                CanNotify = true 
+            else 
+                CanNotify = false 
+            end
+        elseif getgenv().ThirdPerson == true and getgenv().FirstPerson == false then 
+            if (Camera.Focus.p - Camera.CoordinateFrame.p).Magnitude > 1 then 
+                CanNotify = true 
+            else 
+                CanNotify = false 
+            end
+        elseif getgenv().ThirdPerson == false and getgenv().FirstPerson == true then 
+            if (Camera.Focus.p - Camera.CoordinateFrame.p).Magnitude <= 1 then 
+                CanNotify = true 
+            else 
+                CanNotify = false 
+            end
+        end
+        if Aimlock == true and MousePressed == true then 
+            if AimlockTarget and AimlockTarget.Character and AimlockTarget.Character:FindFirstChild(getgenv().AimPart) then 
+                if getgenv().FirstPerson == true then
+                    if CanNotify == true then
+                        if getgenv().PredictMovement == true then
+                            if getgenv().Smoothness == true then
+                                local Main = CF(Camera.CFrame.p, AimlockTarget.Character[getgenv().AimPart].Position + AimlockTarget.Character[getgenv().AimPart].Velocity/PredictionVelocity)
+                                Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().SmoothnessAmount, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut)
+                            else
+                                Camera.CFrame = CF(Camera.CFrame.p, AimlockTarget.Character[getgenv().AimPart].Position + AimlockTarget.Character[getgenv().AimPart].Velocity/PredictionVelocity)
+                            end
+                        elseif getgenv().PredictMovement == false then 
+                            if getgenv().Smoothness == true then
+                                
+                                local Main = CF(Camera.CFrame.p, AimlockTarget.Character[getgenv().AimPart].Position)
+                                Camera.CFrame = Camera.CFrame:Lerp(Main, getgenv().SmoothnessAmount, Enum.EasingStyle.Elastic, Enum.EasingDirection.InOut)
+                            else
+                                Camera.CFrame = CF(Camera.CFrame.p, AimlockTarget.Character[getgenv().AimPart].Position)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+         if CheckIfJumped == true then
+       if AimlockTarget.Character.HuDDDDDDDDDDWmanoid.FloorMaterial == Enum.Material.Air then
+    
+           getgenv().AimPart = "Head"
+       else
+         getgenv().AimPart = getgenv().OldAimPart
+
+       end
+    end
+end)
+
+
+local lib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = lib:MakeWindow({Name = "Zeus.gay", HidePremium = false, IntroText = "Zeus 100% authentic cheese.", SaveConfig = true, ConfigFolder = "Creamy BBC"})
+
+
+--tabs
+local Aiming = Window:MakeTab({
+	Name = "Aiming",
+	Icon = "rbxassetid://11769087820",
+	PremiumOnly = false
+})
+local Misc = Window:MakeTab({
+	Name = "Miscellaneous",
+	Icon = "rbxassetid://11769087820",
+	PremiumOnly = false
+})
+
+--sec
+local s1 = Aiming:AddSection({
+	Name = "Camlock"
+})
+local s2 = Misc:AddSection({
+	Name = "Miscellaneous"
+})  
+
+-- scripting
+s1:AddToggle({
+	Name = "Enable",
+	Default = false,
+	Callback = function(bool)
+		aimlock = bool
+	end    
+})
+s1:AddTextbox({
+	Name = "Keybind",
+	Default = "e",
+	TextDisappear = false,
+	Callback = function(bool)
+		getgenv().AimlockKey = bool
+	end	  
+})
+s1:AddToggle({
+	Name = "TeamCheck",
+	Default = false,
+	Callback = function(bool)
+		getgenv().TeamCheck = bool
+	end    
+})
+s1:AddToggle({
+	Name = "Smoothness",
+	Default = false,
+	Callback = function(bool)
+		getgenv().Smoothness = bool
+	end    
+})
+s1:AddTextbox({
+	Name = "Smoothness Amount",
+	Default = "0.006",
+	TextDisappear = false,
+	Callback = function(bool)
+		getgenv().SmoothnessAmount = bool
+	end	  
+})
+s1:AddTextbox({
+	Name = "Prediction",
+	Default = "9.6",
+	TextDisappear = false,
+	Callback = function(bool)
+		getgenv().PredictionVelocity = bool
+	end	  
+})
+s1:AddDropdown({
+	Name = "Hitbox Part",
+	Default = "Head",
+	Options = {"Head", "UpperTorso", "LowerTorso"},
+	Callback = function(Part)
+		getgenv().AimPart = Part
+	end   
+})
+
+--Misc
+s2:AddButton({
+	Name = "Fly(x)",
+	Callback = function()
+      	local plr = game.Players.LocalPlayer
+local mouse = plr:GetMouse()
+
+localplayer = plr
+
+if workspace:FindFirstChild("Core") then
+workspace.Core:Destroy()
+end
+
+local Core = Instance.new("Part")
+Core.Name = "Core"
+Core.Size = Vector3.new(0.05, 0.05, 0.05)
+
+spawn(function()
+Core.Parent = workspace
+local Weld = Instance.new("Weld", Core)
+Weld.Part0 = Core
+Weld.Part1 = localplayer.Character.LowerTorso
+Weld.C0 = CFrame.new(0, 0, 0)
+end)
+
+workspace:WaitForChild("Core")
+
+local torso = workspace.Core
+flying = true
+local speed=10
+local keys={a=false,d=false,w=false,s=false}
+local e1
+local e2
+local function start()
+local pos = Instance.new("BodyPosition",torso)
+local gyro = Instance.new("BodyGyro",torso)
+pos.Name="EPIXPOS"
+pos.maxForce = Vector3.new(math.huge, math.huge, math.huge)
+pos.position = torso.Position
+gyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+gyro.cframe = torso.CFrame
+repeat
+wait()
+localplayer.Character.Humanoid.PlatformStand=true
+local new=gyro.cframe - gyro.cframe.p + pos.position
+if not keys.w and not keys.s and not keys.a and not keys.d then
+speed=5
+end
+if keys.w then
+new = new + workspace.CurrentCamera.CoordinateFrame.lookVector * speed
+speed=speed+0
+end
+if keys.s then
+new = new - workspace.CurrentCamera.CoordinateFrame.lookVector * speed
+speed=speed+0
+end
+if keys.d then
+new = new * CFrame.new(speed,0,0)
+speed=speed+0
+end
+if keys.a then
+new = new * CFrame.new(-speed,0,0)
+speed=speed+0
+end
+if speed>10 then
+speed=30
+end
+pos.position=new.p
+if keys.w then
+gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(-math.rad(speed*0),0,0)
+elseif keys.s then
+gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(math.rad(speed*0),0,0)
+else
+gyro.cframe = workspace.CurrentCamera.CoordinateFrame
+end
+until flying == false
+if gyro then gyro:Destroy() end
+if pos then pos:Destroy() end
+flying=false
+localplayer.Character.Humanoid.PlatformStand=false
+speed=30
+end
+e1=mouse.KeyDown:connect(function(key)
+if not torso or not torso.Parent then flying=false e1:disconnect() e2:disconnect() return end
+if key=="w" then
+keys.w=true
+elseif key=="s" then
+keys.s=true
+elseif key=="a" then
+keys.a=true
+elseif key=="d" then
+keys.d=true
+elseif key=="x" then
+if flying==true then
+flying=false
+else
+flying=true
+start()
+end
+end
+end)
+e2=mouse.KeyUp:connect(function(key)
+if key=="w" then
+keys.w=false
+elseif key=="s" then
+keys.s=false
+elseif key=="a" then
+keys.a=false
+elseif key=="d" then
+keys.d=false
+end
+end)
+start()
+  	end    
+})
+s2:AddButton({
+	Name = "AntiLock",
+	Callback = function()
+       getgenv().VelocityChanger = false
+getgenv().Velocity = Vector3.new(200,0,200)
+getgenv().Key = "z"
+
+
+local NotifyLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))()
+local Notify = NotifyLibrary.Notify
+
+
+--// main scapt | realkscapter... omg
+local Players     = game:GetService("Players")
+local RunService  = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+local Character   = LocalPlayer.Character
+local RootPart    = Character:FindFirstChild("HumanoidRootPart")
+
+local Heartbeat, RStepped, Stepped = RunService.Heartbeat, RunService.RenderStepped, RunService.Stepped
+
+LocalPlayer.CharacterAdded:Connect(function(NewCharacter)
+   Character = NewCharacter
+end)
+
+local RVelocity, YVelocity = nil, 0.1
+
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+mouse.KeyDown:Connect(
+    function(key)
+        if key == getgenv().Key then
+            if getgenv().VelocityChanger == false then
+                Notify({
+                    Title = "AA",
+                    Description = "ON",
+                    Duration = 1.4
+                    })
+                getgenv().VelocityChanger = true
+            else
+                Notify({
+                    Title = "AA",
+                    Description = "OFF",
+                    Duration = 1.4
+                    })
+                getgenv().VelocityChanger = false
+            end
+        end
+    end
+)
+
+while true do
+   if VelocityChanger then
+       --// this a dumb check asnilsadsa
+       if (not RootPart) or (not RootPart.Parent) or (not RootPart.Parent.Parent) then
+           RootPart = Character:FindFirstChild("HumanoidRootPart")
+       else
+           RVelocity = RootPart.Velocity
+   
+           RootPart.Velocity = type(Velocity) == "vector" and Velocity or Velocity(RVelocity)
+       
+           RStepped:wait()
+       
+           RootPart.Velocity = RVelocity
+       end
+   end
+   
+   Heartbeat:wait()
+end
+    end
+})
+s2:AddTextbox({
+	Name = "AntiLock Key",
+	Default = "Z",
+	TextDisappear = false,
+	Callback = function(bool)
+		getgenv().Key = bool
+	end	  
+})
+s2:AddButton({
+	Name = "Among Us (cs)",
+	Callback = function()
+                local Face = game.Players.LocalPlayer.Character.Head.face.Texture
+    local Mesh = game.Players.LocalPlayer.Character.LowerTorso.MeshId
+    local Size = game.Players.LocalPlayer.Character.LowerTorso.Size
+    
+    game.Players.LocalPlayer.Character.LeftHand.Transparency = 1
+    game.Players.LocalPlayer.Character.RightHand.Transparency = 1
+    game.Players.LocalPlayer.Character.RightUpperArm.Transparency = 1
+    game.Players.LocalPlayer.Character.RightLowerArm.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftUpperArm.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftLowerArm.Transparency = 1
+    game.Players.LocalPlayer.Character.UpperTorso.Transparency = 1
+    game.Players.LocalPlayer.Character.Head.Transparency = 1
+    game.Players.LocalPlayer.Character.RightUpperLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.RightLowerLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftUpperLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftLowerLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftFoot.Transparency = 1
+    game.Players.LocalPlayer.Character.RightFoot.Transparency = 1
+    
+    game.Players.LocalPlayer.Character.Animate:Destroy()
+    game.Players.LocalPlayer.Character.Head.face.Transparency = 1
+    game.Players.LocalPlayer.Character.LowerTorso.MeshId = "rbxassetid://7229922898"
+    game.Players.LocalPlayer.Character.LowerTorso.Size = Vector3.new(0.3, 0.05, 0.15)
+    
+    for i,v in next, game:GetService('Players').LocalPlayer.Character:GetChildren() do
+       if v:IsA('Accessory') then
+           v:Destroy()
+       end
+    end
+end
+})
+s2:AddButton({
+	Name = "Russia Repair House (cs)",
+	Callback = function()
+                local Face = game.Players.LocalPlayer.Character.Head.face.Texture
+    local Mesh = game.Players.LocalPlayer.Character.LowerTorso.MeshId
+    local Size = game.Players.LocalPlayer.Character.LowerTorso.Size
+    
+    game.Players.LocalPlayer.Character.LeftHand.Transparency = 1
+    game.Players.LocalPlayer.Character.RightHand.Transparency = 1
+    game.Players.LocalPlayer.Character.RightUpperArm.Transparency = 1
+    game.Players.LocalPlayer.Character.RightLowerArm.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftUpperArm.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftLowerArm.Transparency = 1
+    game.Players.LocalPlayer.Character.UpperTorso.Transparency = 1
+    game.Players.LocalPlayer.Character.Head.Transparency = 1
+    game.Players.LocalPlayer.Character.RightUpperLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.RightLowerLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftUpperLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftLowerLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.LeftFoot.Transparency = 1
+    game.Players.LocalPlayer.Character.RightFoot.Transparency = 1
+    
+    game.Players.LocalPlayer.Character.Animate:Destroy()
+    game.Players.LocalPlayer.Character.Head.face.Transparency = 1
+    game.Players.LocalPlayer.Character.LowerTorso.TextureID = "rbxassetid://6136089880"
+    game.Players.LocalPlayer.Character.LowerTorso.MeshId = "rbxassetid://6136089733"
+    game.Players.LocalPlayer.Character.LowerTorso.Size = Vector3.new(0.3, 0.05, 0.15)
+    
+    for i,v in next, game:GetService('Players').LocalPlayer.Character:GetChildren() do
+       if v:IsA('Accessory') then
+           v:Destroy()
+       end
+    end
+end
+})
+
+s2:AddButton({
+	Name = "No Jump Cooldown",
+	Callback = function()
+       if not game.IsLoaded(game) then
+   game.Loaded.Wait(game.Loaded);
+end
+
+-- variables
+local IsA = game.IsA;
+local newindex = nil
+
+-- main hook
+newindex = hookmetamethod(game, "__newindex", function(self, Index, Value)
+   if not checkcaller() and IsA(self, "Humanoid") and Index == "JumpPower" then
+       return
+   end
+   
+   return newindex(self, Index, Value);
+end)
+    end
+})
+
+lib:Init()
