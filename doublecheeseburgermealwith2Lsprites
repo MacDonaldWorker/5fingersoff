@@ -6,7 +6,7 @@ getgenv().AimPart = "Head"
     getgenv().FirstPerson = true
     getgenv().TeamCheck = false
     getgenv().PredictMovement = true
-    getgenv().PredictionVelocity = 0.121
+    getgenv().PredictionVelocity = 9.6
     getgenv().CheckIfJumped = true
     getgenv().Smoothness = false
     getgenv().SmoothnessAmount = 0.006
@@ -179,6 +179,11 @@ local Misc = Window:MakeTab({
 	Icon = "rbxassetid://11769087820",
 	PremiumOnly = false
 })
+local Tp = Window:MakeTab({
+	Name = "Teleports",
+	Icon = "rbxassetid://11769087820",
+	PremiumOnly = false
+})
 
 --sec
 local s1 = Aiming:AddSection({
@@ -187,7 +192,9 @@ local s1 = Aiming:AddSection({
 local s2 = Misc:AddSection({
 	Name = "Miscellaneous"
 })  
-
+local s3 = Tp:AddSection({
+	Name = "Teleports"
+})  
 -- scripting
 s1:AddToggle({
 	Name = "Enable",
@@ -529,5 +536,128 @@ newindex = hookmetamethod(game, "__newindex", function(self, Index, Value)
 end)
     end
 })
-
+s2:AddButton({
+	Name = "korblox(cs)",
+	Callback = function()
+      		local ply = game.Players.LocalPlayer
+	local chr = ply.Character
+	chr.RightLowerLeg.MeshId = "902942093"
+	chr.RightLowerLeg.Transparency = "1"
+	chr.RightUpperLeg.MeshId = "http://www.roblox.com/asset/?id=902942096"
+	chr.RightUpperLeg.TextureID = "http://roblox.com/asset/?id=902843398"
+	chr.RightFoot.MeshId = "902942089"
+	chr.RightFoot.Transparency = "1"
+  	end    
+})
+s2:AddButton({
+	Name = "headless(cs)",
+	Callback = function()
+      game.Players.LocalPlayer.Character.Head.Transparency = 1
+	game.Players.LocalPlayer.Character.Head.Transparency = 1
+	for i,v in pairs(game.Players.LocalPlayer.Character.Head:GetChildren()) do
+		if (v:IsA("Decal")) then
+			v.Transparency = 1
+		end
+	end
+   end 
+})
+s3:AddButton({
+	Name = "Casino",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(-995.347473, 21.7499943, -164.485855, -0.999966502, 4.44624115e-09, -0.00818661042, 4.48640547e-09, 1, -4.88775109e-09, 0.00818661042, -4.92431607e-09, -0.999966502)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
+s3:AddButton({
+	Name = "Double Barrel",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(-1039.74768, 21.7499943, -261.616974, -0.999650776, 5.96224368e-08, 0.0264268238, 5.71817509e-08, 1, -9.31120141e-08, -0.0264268238, -9.15683671e-08, -0.999650776)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
+s3:AddButton({
+	Name = "Bank",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(-443.182953, 39.7457161, -283.547791, 0.00832634233, -8.53983373e-09, -0.99996531, -1.78152226e-09, 1, -8.55496385e-09, 0.99996531, 1.85269211e-09, 0.00832634233)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
+s3:AddButton({
+	Name = "Playground",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(-201.748138, 21.8998661, -760.68457, 0.0117485542, -4.76414144e-08, 0.999930978, -1.95232963e-09, 1, 4.76676405e-08, -0.999930978, -2.51222088e-09, 0.0117485542)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
+s3:AddButton({
+	Name = "Downhill Guns",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(-562.986816, 7.9998455, -736.854858, -0.0301649515, 2.33510122e-09, 0.999544919, 1.50497392e-08, 1, -1.88198301e-09, -0.999544919, 1.49861208e-08, -0.0301649515)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
+s3:AddButton({
+	Name = "Revolver",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(-638.339539, 21.7499943, -121.727119, -0.999845386, 4.15721075e-08, 0.0175847877, 4.04272633e-08, 1, -6.54598153e-08, -0.0175847877, -6.47387921e-08, -0.999845386)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
+s3:AddButton({
+	Name = "Uphill Guns",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(481.761688, 48.0049896, -605.987427, 0.999998212, -3.23220739e-08, -0.0019067754, 3.21026121e-08, 1, -1.15127136e-07, 0.0019067754, 1.15065717e-07, 0.999998212)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
+s3:AddButton({
+	Name = "High Mid Armor",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(-933.61969, -28.5000095, 565.646545, -0.99930799, -6.2409363e-08, 0.0371963792, -6.39336548e-08, 1, -3.97899917e-08, -0.0371963792, -4.21405559e-08, -0.99930799)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
+s3:AddButton({
+	Name = "Food",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local location = CFrame.new(-327.24469, 23.682642, -292.304169, -0.0134573365, 2.89774604e-08, -0.999909461, 1.00889757e-07, 1, 2.76222547e-08, 0.999909461, -1.00508899e-07, -0.0134573365)
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = location
+  	end    
+})
 lib:Init()
