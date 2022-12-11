@@ -220,7 +220,7 @@ local s7 = creds:AddSection({
 local s8 = creds:AddSection({
 	Name = "Discord Server"
 })
-s7:AddButton({
+s8:AddButton({
 	Name = "Copy discord server link",
 	Callback = function()
       	setclipboard("https://discord.gg/n5cR9kauHr")
