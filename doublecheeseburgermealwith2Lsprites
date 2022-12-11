@@ -184,6 +184,16 @@ local Tp = Window:MakeTab({
 	Icon = "rbxassetid://11769087820",
 	PremiumOnly = false
 })
+local tar = Window:MakeTab({
+	Name = "Target",
+	Icon = "rbxassetid://11769087820",
+	PremiumOnly = false
+})
+local creds = Window:MakeTab({
+	Name = "Credits",
+	Icon = "rbxassetid://11769087820",
+	PremiumOnly = false
+})
 
 --sec
 local s1 = Aiming:AddSection({
@@ -194,7 +204,28 @@ local s2 = Misc:AddSection({
 })  
 local s3 = Tp:AddSection({
 	Name = "Teleports"
-})  
+})
+local s4 = tar:AddSection({
+	Name = "Target Player"
+})
+local s5 = creds:AddSection({
+	Name = "Creds to Zeus(owner)"
+})
+local s6 = creds:AddSection({
+	Name = "Creds to Zenaki(Literally Zeus)"
+})
+local s7 = creds:AddSection({
+	Name = "ReturnOfZeus#9941"
+})
+local s8 = creds:AddSection({
+	Name = "Discord Server"
+})
+s7:AddButton({
+	Name = "Copy discord server link",
+	Callback = function()
+      	setclipboard("https://discord.gg/n5cR9kauHr")
+  	end    
+})
 -- scripting
 s1:AddToggle({
 	Name = "Enable",
@@ -658,6 +689,24 @@ local humanoid = game.Players.LocalPlayer.Character.Humanoid
 humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
 wait(0.1)
 pl.CFrame = location
+  	end    
+})
+s4:AddTextbox({
+	Name = "Input Username(Caps Sensitive)",
+	Default = "",
+	TextDisappear = false,
+	Callback = function(pl)
+		getgenv().Zeus = pl
+	end	  
+})
+s4:AddButton({
+	Name = "Teleport",
+	Callback = function()
+      	local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = game.Players[getgenv().Zeus].Character.HumanoidRootPart.CFrame
   	end    
 })
 lib:Init()
