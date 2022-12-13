@@ -356,7 +356,7 @@ new = new * CFrame.new(-speed,0,0)
 speed=speed+0
 end
 if speed>10 then
-speed=30
+speed=20
 end
 pos.position=new.p
 if keys.w then
@@ -371,7 +371,7 @@ if gyro then gyro:Destroy() end
 if pos then pos:Destroy() end
 flying=false
 localplayer.Character.Humanoid.PlatformStand=false
-speed=30
+speed=20
 end
 e1=mouse.KeyDown:connect(function(key)
 if not torso or not torso.Parent then flying=false e1:disconnect() e2:disconnect() return end
@@ -719,46 +719,35 @@ wait(0.1)
 pl.CFrame = game.Players[getgenv().Zeus].Character.HumanoidRootPart.CFrame
   	end    
 })
-s10:AddTextbox({
-	Name = "Input Username(Caps Sensitive)",
-	Default = "",
-	TextDisappear = false,
-	Callback = function(Player)
-		local target = Player
-	end	  
-})
-s10:AddButton({
-	Name = "Teleport",
-	Callback = function()
-      while getgenv().ZeusXd == true do
-    task.wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[target].Character.HumanoidRootPart.CFrame * CFrame.new(0, 8, 0)
-game.Players.LocalPlayer.Character.Humanoid.Sit = true
-end 
-end
-})
 z:AddButton({
 	Name = "Target Aim",
 	Callback = function()
-      	getgenv().Target = true
--- Configuration
-getgenv().Key = Enum.KeyCode.Q
-getgenv().Prediction = 0.121
-getgenv().ChatMode = false
-getgenv().NotifMode = false
+
+
+    getgenv().Target = true
+
+
+    getgenv().Key = Enum.KeyCode.Q
+    getgenv().Prediction = 0.121
+    getgenv().ChatMode = false
+    getgenv().NotifMode = false
     getgenv().PartMode = true
     getgenv().AirshotFunccc = true
     getgenv().Partz = "HumanoidRootPart"
-getgenv().AutoPrediction = false
---
+    getgenv().AutoPrediction = false
+
+
+
     _G.Types = {
         Ball = Enum.PartType.Ball,
         Block = Enum.PartType.Block, 
         Cylinder = Enum.PartType.Cylinder
     }
+          
     
-    --variables                 
-    	local Tracer = Instance.new("Part", game.Workspace)
+
+
+    local Tracer = Instance.new("Part", game.Workspace)
     Tracer.Name = "gay"	
     Tracer.Anchored = true		
     Tracer.CanCollide = false
@@ -769,45 +758,58 @@ getgenv().AutoPrediction = false
     Tracer.Size = Vector3.new(14,14,14)
     Tracer.Color = Color3.fromRGB(222,4,4)
     
+
+
+
     --
     local plr = game.Players.LocalPlayer
-local mouse = plr:GetMouse()
-local Runserv = game:GetService("RunService")
+    local mouse = plr:GetMouse()
+    local Runserv = game:GetService("RunService")
 
-circle = Drawing.new("Circle")
-circle.Color = Color3.fromRGB(255,255,255)
-circle.Thickness = 0
-circle.NumSides = 732
-circle.Radius = 120
-circle.Thickness = 0
-circle.Transparency = 1
-circle.Visible = false
-circle.Filled = false
 
-Runserv.RenderStepped:Connect(function()
-    circle.Position = Vector2.new(mouse.X,mouse.Y+35)
-end)
+
+
+    circle = Drawing.new("Circle")
+    circle.Color = Color3.fromRGB(255,255,255)
+    circle.Thickness = 0
+    circle.NumSides = 732
+    circle.Radius = 120
+    circle.Thickness = 0
+    circle.Transparency = 1
+    circle.Visible = false
+    circle.Filled = false
+
+
+
+
+
+    Runserv.RenderStepped:Connect(function()
+        circle.Position = Vector2.new(mouse.X,mouse.Y+35)
+    end)
     
-    	local guimain = Instance.new("Folder", game.CoreGui)
-    	local CC = game:GetService"Workspace".CurrentCamera
+
+
+
+
+    local guimain = Instance.new("Folder", game.CoreGui)
+    local CC = game:GetService"Workspace".CurrentCamera
     local LocalMouse = game.Players.LocalPlayer:GetMouse()
-    	local Locking = false
+    local Locking = false
     
     	
     --
     if getgenv().sexy == true then
-                        game.StarterGui:SetCore("SendNotification", {
-                   Title = "Zeus",
-                   Text = "Already Loaded!",
-                   Duration = 5
-        
-                   })
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Zeus",
+                Text = "Already Loaded!",
+                Duration = 5
+            })
         return
     end
     
     getgenv().sexy = false
     
-        local UserInputService = game:GetService("UserInputService")
+    local UserInputService = game:GetService("UserInputService")
 
     UserInputService.InputBegan:Connect(function(keygo,ok)
            if (not ok) then
@@ -818,37 +820,72 @@ end)
                if Locking then
                Plr =  getClosestPlayerToCursor()
                 if getgenv().ChatMode then
-        local A_1 = "Target: "..tostring(Plr.Character.Humanoid.DisplayName) local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
-        	end	
-               if getgenv().NotifMode then
-    			game.StarterGui:SetCore("SendNotification", {
-        Title = "";
-        Text = "Target: "..tostring(Plr.Character.Humanoid.DisplayName);
+                    local A_1 = "Target: "..tostring(Plr.Character.Humanoid.DisplayName) local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+        	    end	
+                if getgenv().NotifMode then
+    			    game.StarterGui:SetCore("SendNotification", {
+                        Title = "";
+                        Text = "Target: "..tostring(Plr.Character.Humanoid.DisplayName);
     
-    })
-    end
+                    })
+                end
+
+
+                getgenv().Strafe = false
+
+                getgenv().StrafeSpeed = 0.6
+        
+                getgenv().StrafeLength = 10
+                
+                
+                if Strafe == true then
+                    spawn(function()
+                                    -- uwu dev forums
+                                    repeat
+                                        task.wait()
+        
+                            for i = 0, 360, StrafeSpeed do
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                    CFrame.new(Plr.Character.HumanoidRootPart.Position) *
+                                    CFrame.Angles(0, math.rad(i), 0) *
+                                    CFrame.new(StrafeLength, 0, 0)
+                                task.wait()
+                            end
+                        until Plr.Character.Humanoid.health < 1 or
+                                not Locking or
+                            Strafe == false
+                end
+            )
+        end
+
+
+
+
+
+
+
+
     elseif not Locking then
-         if getgenv().ChatMode then
-        local A_1 = "Unlocked!" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+            if getgenv().ChatMode then
+                local A_1 = "Unlocked!" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
         	end	
+            getgenv().Strafe = false
         if getgenv().NotifMode then
-                        game.StarterGui:SetCore("SendNotification", {
+                game.StarterGui:SetCore("SendNotification", {
                    Title = "",
                    Text = "Unlocked",
                    Duration = 5
                })
            elseif getgenv().Target == false then
-                        game.StarterGui:SetCore("SendNotification", {
+                game.StarterGui:SetCore("SendNotification", {
                    Title = "",
                    Text = "Target isn't enabled",
                    Duration = 5
      
-                   })
-               
-               end
-                  
- 
- end     end   
+                })
+            end
+        end 
+    end  
 end
 end
 end)
@@ -898,7 +935,6 @@ end
 
 
 if getgenv().AirshotFunccc == true then
-
             if Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
                 getgenv().Partz = "RightFoot"
             else
@@ -913,35 +949,38 @@ if getgenv().AirshotFunccc == true then
 end
 ---
 	while wait() do
-	if getgenv().AutoPrediction == true then
-        local pingvalue = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-        local split = string.split(pingvalue,'(')
-        local ping = tonumber(split[1])
-        if ping < 130 then
-            getgenv().Prediction = 0.151
-        elseif ping < 125 then
-            getgenv().Prediction = 0.149
-        elseif ping < 110 then
-            getgenv().Prediction = 0.146
-        elseif ping < 105 then
-            getgenv().Prediction = 0.138
-        elseif ping < 90 then
-            getgenv().Prediction = 0.136
-        elseif ping < 80 then
-            getgenv().Prediction = 0.134
-        elseif ping < 70 then
-            getgenv().Prediction = 0.131
-        elseif ping < 60 then
-            getgenv().Prediction = 0.1229
-        elseif ping < 50 then
-            getgenv().Prediction = 0.1225
-        elseif ping < 40 then
-            getgenv().Prediction = 0.1256
+        if getgenv().AutoPrediction == true then
+            local pingvalue = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+            local split = string.split(pingvalue,'(')
+            local ping = tonumber(split[1])
+            if ping < 130 then
+                getgenv().Prediction = 0.151
+            elseif ping < 125 then
+                getgenv().Prediction = 0.149
+            elseif ping < 110 then
+                getgenv().Prediction = 0.146
+            elseif ping < 105 then
+                getgenv().Prediction = 0.138
+            elseif ping < 90 then
+                getgenv().Prediction = 0.136
+            elseif ping < 80 then
+                getgenv().Prediction = 0.134
+            elseif ping < 70 then
+                getgenv().Prediction = 0.131
+            elseif ping < 60 then
+                getgenv().Prediction = 0.1229
+            elseif ping < 50 then
+                getgenv().Prediction = 0.1225
+            elseif ping < 40 then
+                getgenv().Prediction = 0.1256
+            end
         end
-	end
-    end
-  	end    
+        end
+end
 })
+
+
+
 z:AddTextbox({
 	Name = "Change Bind",
 	Default = "Q",
@@ -950,6 +989,10 @@ z:AddTextbox({
 		getgenv().Key = bool
 	end	  
 })
+
+
+
+
 z:AddTextbox({
 	Name = "Prediction",
 	Default = "0.121",
@@ -958,6 +1001,10 @@ z:AddTextbox({
 		getgenv().Prediction = bool
 	end	  
 })
+
+
+
+
 z:AddToggle({
 	Name = "Auto pred",
 	Default = false,
@@ -965,6 +1012,10 @@ z:AddToggle({
 		getgenv().AutoPrediction = bool
 	end    
 })
+
+
+
+
 z:AddToggle({
 	Name = "Chat Mode",
 	Default = false,
@@ -972,6 +1023,44 @@ z:AddToggle({
 		getgenv().ChatMode = bool
 	end    
 })
+
+
+z:AddToggle({
+	Name = "Target Strafe",
+	Default = false,
+	Callback = function(bool)
+		Strafe = bool
+	end    
+})
+
+z:AddSlider({
+	Name = "Target Strafe Speed",
+	Min = 0,
+	Max = 50,
+	Default = 1,
+	Color = Color3.fromRGB(250,4,4),
+	Increment = 1,
+	ValueName = "inches",
+	Callback = function(s)
+		StrafeSpeed = s
+	end    
+})
+
+z:AddSlider({
+	Name = "Target Strafe Legnth",
+	Min = 0,
+	Max = 50,
+	Default = 1,
+	Color = Color3.fromRGB(250,4,4),
+	Increment = 1,
+	ValueName = "inches",
+	Callback = function(s)
+		StrafeLength = s
+	end    
+})
+
+
+
 z:AddToggle({
 	Name = "Notify",
 	Default = false,
@@ -979,6 +1068,9 @@ z:AddToggle({
 		getgenv().NotifyMode = bool
 	end    
 })
+
+
+
 z:AddDropdown({
 	Name = "Change Part",
 	Default = "HumanoidRootPart",
@@ -987,6 +1079,21 @@ z:AddDropdown({
 		getgenv().Partz = part
 	end    
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 local smh = Misc:AddSection({
 	Name = "CFrame Speed"
 })
@@ -1011,8 +1118,7 @@ smh:AddButton({
             end
         end)
     end)
-end
-  	end    
+end  
 })
 smh:AddButton({
 	Name = "CFrame(Z)",
@@ -1061,8 +1167,7 @@ smh:AddButton({
 			end
 		end
 	end)
-end
-  	end    
+end   
 })
 smh:AddSlider({
 	Name = "Change Speed",
