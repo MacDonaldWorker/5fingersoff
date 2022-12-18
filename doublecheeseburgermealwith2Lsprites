@@ -1,4 +1,144 @@
-        getgenv().OldAimPart = "Head"
+       
+            
+        
+            checkcaller = checkcaller
+newcclosure = newcclosure
+hookmetamethod = hookmetamethod
+
+local PastedSources = false
+local BruhXD = game:GetService("RunService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Bullshit = LocalPlayer:GetMouse()
+
+local XYZ1 = 0
+local XYZ2 = 0
+local XYZ3 = 0
+
+local Hip = 0
+local c = 0
+
+function RandomNumberRange(a)
+    return math.random(-a * 100, a * 100) / 100
+end
+
+function RandomVectorRange(a, b, c)
+    return Vector3.new(RandomNumberRange(a), RandomNumberRange(b), RandomNumberRange(c))
+end
+
+
+local DesyncTypes = {}
+BruhXD.Heartbeat:Connect(function()
+    if PastedSources == true then
+        DesyncTypes[1] = LocalPlayer.Character.HumanoidRootPart.CFrame
+        DesyncTypes[2] = LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity
+
+        local SpoofThis = LocalPlayer.Character.HumanoidRootPart.CFrame
+
+        SpoofThis = SpoofThis * CFrame.new(Vector3.new(0, 0, 0))
+        SpoofThis = SpoofThis * CFrame.Angles(math.rad(RandomNumberRange(XYZ1)), math.rad(RandomNumberRange(XYZ2)), math.rad(RandomNumberRange(XYZ3)))
+
+        LocalPlayer.Character.HumanoidRootPart.CFrame = SpoofThis
+
+        LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(1, 1, 1) * 16384
+
+        BruhXD.RenderStepped:Wait()
+
+        LocalPlayer.Character.HumanoidRootPart.CFrame = DesyncTypes[1]
+        LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = DesyncTypes[2]
+    end
+end)
+
+
+--// Hook_CFrame
+local XDDDDDD = nil
+XDDDDDD = hookmetamethod(game, "__index", newcclosure(function(self, key)
+    if PastedSources == true then
+        if not checkcaller() then
+            if key == "CFrame" and PastedSources == true and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character:FindFirstChild("Humanoid").Health > 0 then
+                if self == LocalPlayer.Character.HumanoidRootPart then
+                    return DesyncTypes[1] or CFrame.new()
+                elseif self == LocalPlayer.Character.Head then
+                    return DesyncTypes[1] and DesyncTypes[1] + Vector3.new(0, LocalPlayer.Character.HumanoidRootPart.Size / 2 + 0.5, 0) or CFrame.new()
+                end
+            end
+        end
+    end
+    return XDDDDDD(self, key)
+end))
+            
+
+            
+            --aa
+            
+        
+
+
+-- da hood private silent aim
+local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZenXTheMen/sdgyusadsad/main/sas",true))()
+Aiming.TeamCheck(false)
+
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local CurrentCamera = Workspace.CurrentCamera
+
+local DaHoodSettings = {
+    SilentAim = false,
+    AimLock = false,
+    Prediction = 0.11,
+    AimLockKeybind = Enum.KeyCode.E
+}
+getgenv().DaHoodSettings = DaHoodSettings
+
+function Aiming.Check()
+    if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
+        return false
+    end
+
+    local Character = Aiming.Character(Aiming.Selected)
+    local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
+    local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
+
+    if (KOd or Grabbed) then
+        return false
+    end
+
+    return true
+end
+
+local __index
+__index = hookmetamethod(game, "__index", function(t, k)
+    if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
+        local SelectedPart = Aiming.SelectedPart
+
+        if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
+            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+
+            return (k == "Hit" and Hit or SelectedPart)
+        end
+    end
+
+    return __index(t, k)
+end)
+
+RunService:BindToRenderStep("AimLock", 0, function()
+    if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
+        local SelectedPart = Aiming.SelectedPart
+
+        local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
+
+        CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
+    end
+    end)
+
+
+
+
+ getgenv().OldAimPart = "Head"
         getgenv().AimPart = "Head"
             getgenv().AimlockKey = ""
             getgenv().AimRadius = 250
@@ -163,85 +303,6 @@
             end
         end)
 
-            
-        
-            checkcaller = checkcaller
-newcclosure = newcclosure
-hookmetamethod = hookmetamethod
-
-local PastedSources = false
-local BruhXD = game:GetService("RunService")
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local Bullshit = LocalPlayer:GetMouse()
-
-local XYZ1 = 0
-local XYZ2 = 0
-local XYZ3 = 0
-
-local Hip = 0
-local c = 0
-
-function RandomNumberRange(a)
-    return math.random(-a * 100, a * 100) / 100
-end
-
-function RandomVectorRange(a, b, c)
-    return Vector3.new(RandomNumberRange(a), RandomNumberRange(b), RandomNumberRange(c))
-end
-
-
-local DesyncTypes = {}
-BruhXD.Heartbeat:Connect(function()
-    if PastedSources == true then
-        DesyncTypes[1] = LocalPlayer.Character.HumanoidRootPart.CFrame
-        DesyncTypes[2] = LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity
-
-        local SpoofThis = LocalPlayer.Character.HumanoidRootPart.CFrame
-
-        SpoofThis = SpoofThis * CFrame.new(Vector3.new(0, 0, 0))
-        SpoofThis = SpoofThis * CFrame.Angles(math.rad(RandomNumberRange(XYZ1)), math.rad(RandomNumberRange(XYZ2)), math.rad(RandomNumberRange(XYZ3)))
-
-        LocalPlayer.Character.HumanoidRootPart.CFrame = SpoofThis
-
-        LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(1, 1, 1) * 16384
-
-        BruhXD.RenderStepped:Wait()
-
-        LocalPlayer.Character.HumanoidRootPart.CFrame = DesyncTypes[1]
-        LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = DesyncTypes[2]
-    end
-end)
-
-
---// Hook_CFrame
-local XDDDDDD = nil
-XDDDDDD = hookmetamethod(game, "__index", newcclosure(function(self, key)
-    if PastedSources == true then
-        if not checkcaller() then
-            if key == "CFrame" and PastedSources == true and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character:FindFirstChild("Humanoid").Health > 0 then
-                if self == LocalPlayer.Character.HumanoidRootPart then
-                    return DesyncTypes[1] or CFrame.new()
-                elseif self == LocalPlayer.Character.Head then
-                    return DesyncTypes[1] and DesyncTypes[1] + Vector3.new(0, LocalPlayer.Character.HumanoidRootPart.Size / 2 + 0.5, 0) or CFrame.new()
-                end
-            end
-        end
-    end
-    return XDDDDDD(self, key)
-end))
-            
-
-            
-            --aa
-            
-        
-
-
-
-
-
-
-
 
 
 
@@ -280,9 +341,9 @@ end))
             ----sections--------
             local tg = a:section({name = "Target-Aim",side = "left",size = 330})
             local cl = a:section({name = "Camlock",side = "right",size = 280})
-            local sa = a:section({name = "Silent-Aim",side = "left",size = 200})
-            local aa1 = aa:section({name = "Anti-Aim",side = "left",size = 150})
-            local aa2 = aa:section({name = "Desync-AA",side = "Right",size = 130})
+            local sa = a:section({name = "Silent-Aim",side = "left",size = 230})
+            local aa1 = aa:section({name = "Anti-Aim",side = "left",size = 90})
+            local aa2 = aa:section({name = "Desync-AA",side = "Right",size = 140})
             local m1 = m:section({name = "Misc1",side = "left",size = 170})
             local m2 = m:section({name = "Misc2",side = "Right",size = 80})
 
@@ -309,8 +370,9 @@ end))
 
 
             -------target aim-------
-            tg:button({name = "Target-Aim (Q)",callback = function()
-                getgenv().Target = true
+            
+tg:button({name = "Target-Aim",callback = function()
+    getgenv().Target = true
 
 
         getgenv().Key = Enum.KeyCode.Q
@@ -562,8 +624,7 @@ end))
                 end
             end
             end
-
-            end})
+end})
             
 
             tg:textbox({name = "Input Prediction",def = "0.121",placeholder = "input prediction for the target aim.",callback = function(bool)
@@ -677,9 +738,9 @@ end))
                 end)
             end)
         end})
-        cl:slider({name = "SmoothnessAmount",def = 0, max = 10,min = 0,rounding = true,ticking = false,measuring = "",callback = function(bool)
-            getgenv().SmoothnessAmount = bool
-        end})
+        cl:textbox({name = "Smoothness Amount",def = "0.006",placeholder = "Enter Smoothness Amount",callback = function(bool)
+   getgenv().SmoothnessAmount = bool
+end})
         cl:toggle({name = "TeamCheck",def = false,callback = function(bool)
             getgenv().TeamCheck = bool
         end})
@@ -726,94 +787,39 @@ end))
 
 
         -------silent aim---------------------------
-    sa:button({name = "Silent Aim",callback = function()
-        -- da hood private silent aim
-    local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZenXTheMen/sdgyusadsad/main/sas",true))()
-    Aiming.TeamCheck(false)
 
-    local Workspace = game:GetService("Workspace")
-    local Players = game:GetService("Players")
-    local RunService = game:GetService("RunService")
-    local UserInputService = game:GetService("UserInputService")
-
-    local LocalPlayer = Players.LocalPlayer
-    local Mouse = LocalPlayer:GetMouse()
-    local CurrentCamera = Workspace.CurrentCamera
-
-    local DaHoodSettings = {
-        SilentAim = true,
-        AimLock = false,
-        Prediction = 0.14,
-        AimLockKeybind = Enum.KeyCode.E
-    }
-    getgenv().DaHoodSettings = DaHoodSettings
-
-    function Aiming.Check()
-        if not (Aiming.Enabled == true and Aiming.Selected ~= LocalPlayer and Aiming.SelectedPart ~= nil) then
-            return false
-        end
-
-        local Character = Aiming.Character(Aiming.Selected)
-        local KOd = Character:WaitForChild("BodyEffects")["K.O"].Value
-        local Grabbed = Character:FindFirstChild("GRABBING_CONSTRAINT") ~= nil
-
-        if (KOd or Grabbed) then
-            return false
-        end
-
-        return true
-    end
-
-    local __index
-    __index = hookmetamethod(game, "__index", function(t, k)
-        if (t:IsA("Mouse") and (k == "Hit" or k == "Target") and Aiming.Check()) then
-            local SelectedPart = Aiming.SelectedPart
-
-            if (DaHoodSettings.SilentAim and (k == "Hit" or k == "Target")) then
-                local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-
-                return (k == "Hit" and Hit or SelectedPart)
-            end
-        end
-
-        return __index(t, k)
-    end)
-
-    RunService:BindToRenderStep("AimLock", 0, function()
-        if (DaHoodSettings.AimLock and Aiming.Check() and UserInputService:IsKeyDown(DaHoodSettings.AimLockKeybind)) then
-            local SelectedPart = Aiming.SelectedPart
-
-            local Hit = SelectedPart.CFrame + (SelectedPart.Velocity * DaHoodSettings.Prediction)
-
-            CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Hit.Position)
-        end
-        end)
+    sa:toggle({name = "Silent Aim",def = false,callback = function(bool)
+        DaHoodSettings.SilentAim = bool
     end})
-        sa:toggle({name = "ShowFov",def = false,callback = function(bool)
-            Aiming.ShowFOV = bool
-        end})
-        sa:dropdown({name = "Aimpart",def = "Head",max = 4,options = {"Head","UpperTorso","HumanoidRootPart","LowerTorso"},callback = function(part)
-            Aiming.TargetPart = part
-        end})
-        sa:slider({name = "Fov Size",def = 0, max = 300,min = 0,rounding = true,ticking = false,measuring = "",callback = function(bool)
-            Aiming.FOV = bool
-        end})
-            sa:slider({name = "Hitchance",def = 0, max = 100,min = 0,rounding = true,ticking = false,measuring = "",callback = function(bool)
-            Aiming.HitChance = bool
-        end})
-            sa:button({name = "Resolver",callback = function()
-            local RunService = game:GetService("RunService")
-            RunService.Heartbeat:Connect(function()
-                pcall(function()
-                    for i,v in pairs(game.Players:GetChildren()) do
-                        if v.Name ~= game.Players.LocalPlayer.Name then
-                            local hrp = v.Character.HumanoidRootPart
-                            hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-                            hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-                        end
+
+    sa:toggle({name = "ShowFov",def = false,callback = function(bool)
+        Aiming.ShowFOV = bool
+    end})
+    sa:dropdown({name = "Aimpart",def = "Head",max = 4,options = {"Head","UpperTorso","HumanoidRootPart","LowerTorso"},callback = function(part)
+        Aiming.TargetPart = part
+    end})
+    sa:slider({name = "Fov Size",def = 0, max = 300,min = 0,rounding = true,ticking = false,measuring = "",callback = function(bool)
+        Aiming.FOV = bool
+    end})
+    sa:textbox({name = " SilentAim Prediction",def = "0.11",placeholder = "Enter Pred",callback = function(bool)
+        DaHoodSettings.Prediction = bool
+    end})
+        sa:slider({name = "Hitchance",def = 0, max = 100,min = 0,rounding = true,ticking = false,measuring = "",callback = function(bool)
+        Aiming.HitChance = bool
+    end})
+        sa:button({name = "Resolver",callback = function()
+        local RunService = game:GetService("RunService")
+        RunService.Heartbeat:Connect(function()
+            pcall(function()
+                for i,v in pairs(game.Players:GetChildren()) do
+                    if v.Name ~= game.Players.LocalPlayer.Name then
+                        local hrp = v.Character.HumanoidRootPart
+                        hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
+                        hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
                     end
-                end)
+                end
             end)
+        end)
         end})
 
 
