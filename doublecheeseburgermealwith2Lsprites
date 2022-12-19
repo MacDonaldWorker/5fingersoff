@@ -369,7 +369,7 @@ end)
             local aa2 = aa:section({name = "Desync-AA",side = "Right",size = 140})
             local m1 = m:section({name = "Misc1",side = "left",size = 170})
             local m2 = m:section({name = "Misc2",side = "Right",size = 80})
-
+            local m3 = m:section({name = "Tp to player",side = "left",size = 90})
 
 
 
@@ -1411,4 +1411,25 @@ keys.d=false
 end
 end)
 start()
+end})
+
+
+
+
+
+
+
+
+
+
+--fdsfds
+m3:textbox({name = "Input User (Case Sensitive)",def = "",placeholder = "Enter User",callback = function(pl)
+   getgenv().Zenaki = pl
+end})
+m3:button({name = "Teleport",callback = function()
+     local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+wait(0.1)
+pl.CFrame = game.Players[getgenv().Zenaki].Character.HumanoidRootPart.CFrame
 end})
