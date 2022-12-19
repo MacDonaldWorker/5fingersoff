@@ -70,7 +70,6 @@ end))
             
             --aa
             
-        
 
 
 -- da hood private silent aim
@@ -308,6 +307,29 @@ RunService:BindToRenderStep("AimLock", 0, function()
 
 
 
+getgenv().Sexy = false
+getgenv().Bitch = 1
+
+game:GetService"RunService".RenderStepped:Connect(function()
+        if getgenv().Sexy == true then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = 
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * 
+        CFrame.new(
+        math.random(1, 2) == 1 and getgenv().Bitch or -getgenv().Bitch, 0, 0
+        )
+        end
+end)
+
+
+
+
+
+
+
+
+
+
+
 
             --------- ui lib ---
             local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZenXTheMen/dsadadsas/main/wa"))()
@@ -343,6 +365,7 @@ RunService:BindToRenderStep("AimLock", 0, function()
             local cl = a:section({name = "Camlock",side = "right",size = 280})
             local sa = a:section({name = "Silent-Aim",side = "left",size = 230})
             local aa1 = aa:section({name = "Anti-Aim",side = "left",size = 90})
+            local aa3 = aa:section({name = "Confusion-AA",side = "left",size = 90})
             local aa2 = aa:section({name = "Desync-AA",side = "Right",size = 140})
             local m1 = m:section({name = "Misc1",side = "left",size = 170})
             local m2 = m:section({name = "Misc2",side = "Right",size = 80})
@@ -1010,6 +1033,23 @@ end})
 
 
 
+aa3:toggle({name = "Confusion-AA",def = false,callback = function(bool)
+getgenv().Sexy = bool
+end})
+
+
+
+
+aa3:textbox({name = "Amount",def = "1",placeholder = "Enter Num",callback = function(bool)
+     getgenv().Bitch = bool
+end})
+
+
+
+
+
+
+
 
 
 
@@ -1065,6 +1105,27 @@ m1:button({name = "Among Us(cs)",callback = function()
     game.Players.LocalPlayer.Character.LowerTorso.MeshId = "rbxassetid://7229922898"
     game.Players.LocalPlayer.Character.LowerTorso.Size = Vector3.new(0.3, 0.05, 0.15)
     
+    	local function inTable(What, Table)
+		for Index, Value in pairs(Table) do
+			if What == Value then
+				return true
+			end
+		end
+		return false
+	end
+
+	local removingClasses = {
+		"Accessory",
+		"Pants",
+		"Shirt",
+	}
+
+	for _, Instance in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+		if inTable(Instance.ClassName, removingClasses) or Instance.Name == "face" then
+			Instance:Destroy()
+		end
+	end
+    
     for i,v in next, game:GetService('Players').LocalPlayer.Character:GetChildren() do
        if v:IsA('Accessory') then
            v:Destroy()
@@ -1097,6 +1158,27 @@ m1:button({name = "Russia Repair House(cs)",callback = function()
     game.Players.LocalPlayer.Character.LowerTorso.MeshId = "rbxassetid://6136089733"
     game.Players.LocalPlayer.Character.LowerTorso.Size = Vector3.new(0.3, 0.05, 0.15)
     
+    	local function inTable(What, Table)
+		for Index, Value in pairs(Table) do
+			if What == Value then
+				return true
+			end
+		end
+		return false
+	end
+
+	local removingClasses = {
+		"Accessory",
+		"Pants",
+		"Shirt",
+	}
+
+	for _, Instance in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+		if inTable(Instance.ClassName, removingClasses) or Instance.Name == "face" then
+			Instance:Destroy()
+		end
+	end
+
     for i,v in next, game:GetService('Players').LocalPlayer.Character:GetChildren() do
        if v:IsA('Accessory') then
            v:Destroy()
@@ -1148,6 +1230,27 @@ m1:button({name = "Wood(cs)",callback = function()
     game.Players.LocalPlayer.Character.LowerTorso.MeshId = "rbxassetid://11835983505"
     game.Players.LocalPlayer.Character.LowerTorso.Size = Vector3.new(0.3, 0.05, 0.15)
     
+        	local function inTable(What, Table)
+		for Index, Value in pairs(Table) do
+			if What == Value then
+				return true
+			end
+		end
+		return false
+	end
+
+	local removingClasses = {
+		"Accessory",
+		"Pants",
+		"Shirt",
+	}
+
+	for _, Instance in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+		if inTable(Instance.ClassName, removingClasses) or Instance.Name == "face" then
+			Instance:Destroy()
+		end
+	end
+
     for i,v in next, game:GetService('Players').LocalPlayer.Character:GetChildren() do
        if v:IsA('Accessory') then
            v:Destroy()
