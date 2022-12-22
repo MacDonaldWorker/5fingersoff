@@ -336,13 +336,13 @@ end)
 
             ----sections--------
             local tg = a:section({name = "Target-Aim",side = "left",size = 330})
-            local cl = a:section({name = "Camlock",side = "right",size = 280})
+            local cl = a:section({name = "Camlock",side = "right",size = 310})
             local sa = a:section({name = "Silent-Aim",side = "left",size = 230})
-            local vs = v:section({name = "ESP",side = "Left",size = 260})
+            local vs = v:section({name = "ESP",side = "Left",size = 230})
             local aa1 = aa:section({name = "Anti-Aim",side = "left",size = 90})
             local aa3 = aa:section({name = "Confusion-AA",side = "left",size = 90})
             local aa2 = aa:section({name = "Desync-AA",side = "Right",size = 140})
-            local m1 = m:section({name = "Misc1",side = "left",size = 170})
+            local m1 = m:section({name = "Misc1",side = "left",size = 150})
             local m2 = m:section({name = "Misc2",side = "Right",size = 80})
             local m3 = m:section({name = "Tp to player",side = "left",size = 90})
 
