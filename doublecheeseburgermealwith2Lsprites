@@ -1,5 +1,9 @@
        
-            
+
+
+
+
+
         
             checkcaller = checkcaller
 newcclosure = newcclosure
@@ -299,6 +303,8 @@ end)
 
 
 
+   
+
 
 
 
@@ -370,288 +376,289 @@ end)
             -------target aim-------
             
             
+            tg:button({name = "Target-Aim (Q)",callback = function()
 
-            tg:button({name = "Target-Aim(Q)",callback = function()
-getgenv().Target = true
-getgenv().Key = Enum.KeyCode.Q
-getgenv().Prediction = 0.121
-getgenv().ChatMode = false
-getgenv().NotifMode = false
-getgenv().PartMode = true
-getgenv().AirshotFunccc = false
-getgenv().Partz = "HumanoidRootPart"
-getgenv().AutoPrediction = false
+ getgenv().Target = true
+
+    getgenv().Key = Enum.KeyCode.Q
+    getgenv().Prediction = 0.121
+    getgenv().ChatMode = false
+    getgenv().NotifMode = false
+    getgenv().PartMode = true
+    getgenv().AirshotFunccc = false
+    getgenv().Partz = "HumanoidRootPart"
+    getgenv().AutoPrediction = false
 
 
 
-_G.Types = {
-    Ball = Enum.PartType.Ball,
-    Block = Enum.PartType.Block, 
-    Cylinder = Enum.PartType.Cylinder
-}
+    _G.Types = {
+        Ball = Enum.PartType.Ball,
+        Block = Enum.PartType.Block, 
+        Cylinder = Enum.PartType.Cylinder
+    }
+          
+    
+
+
+    local Tracer = Instance.new("Part", game.Workspace)
+    Tracer.Name = "gay"	
+    Tracer.Anchored = true		
+    Tracer.CanCollide = false
+    Tracer.Transparency = 0
+    Tracer.Parent = game.Workspace	
+    Tracer.Shape = _G.Types.Ball
+    Tracer.Material = Enum.Material.ForceField
+    Tracer.Size = Vector3.new(14,14,14)
+    Tracer.Color = Color3.fromRGB(222,4,4)
     
 
 
 
-local Tracer = Instance.new("Part", game.Workspace)
-Tracer.Name = "gay"	
-Tracer.Anchored = true		
-Tracer.CanCollide = false
-Tracer.Transparency = 0
-Tracer.Parent = game.Workspace	
-Tracer.Shape = _G.Types.Ball
-Tracer.Material = Enum.Material.ForceField
-Tracer.Size = Vector3.new(14,14,14)
-Tracer.Color = Color3.fromRGB(222,4,4)
+    --
+    local plr = game.Players.LocalPlayer
+    local mouse = plr:GetMouse()
+    local Runserv = game:GetService("RunService")
 
 
 
 
---
-local plr = game.Players.LocalPlayer
-local mouse = plr:GetMouse()
-local Runserv = game:GetService("RunService")
-
-
-
-
-circle = Drawing.new("Circle")
-circle.Color = Color3.fromRGB(255,255,255)
-circle.Thickness = 0
-circle.NumSides = 732
-circle.Radius = 120
-circle.Thickness = 0
-circle.Transparency = 1
-circle.Visible = false
-circle.Filled = false
+    circle = Drawing.new("Circle")
+    circle.Color = Color3.fromRGB(255,255,255)
+    circle.Thickness = 0
+    circle.NumSides = 732
+    circle.Radius = 120
+    circle.Thickness = 0
+    circle.Transparency = 1
+    circle.Visible = false
+    circle.Filled = false
 
 
 
 
 
-Runserv.RenderStepped:Connect(function()
-    circle.Position = Vector2.new(mouse.X,mouse.Y+35)
-end)
-
-
-
-
-
-local guimain = Instance.new("Folder", game.CoreGui)
-local CC = game:GetService"Workspace".CurrentCamera
-local LocalMouse = game.Players.LocalPlayer:GetMouse()
-local Locking = false
-
+    Runserv.RenderStepped:Connect(function()
+        circle.Position = Vector2.new(mouse.X,mouse.Y+35)
+    end)
     
---
-if getgenv().sexy == true then
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Zeus",
-            Text = "Already Loaded!",
-            Duration = 5
-        })
-    return
-end
 
-getgenv().sexy = false
 
-local UserInputService = game:GetService("UserInputService")
 
-UserInputService.InputBegan:Connect(function(keygo,ok)
-    if (not ok) then
-    if (keygo.KeyCode == getgenv().Key) then
-        if getgenv().Target == true then
-        Locking = not Locking
+
+    local guimain = Instance.new("Folder", game.CoreGui)
+    local CC = game:GetService"Workspace".CurrentCamera
+    local LocalMouse = game.Players.LocalPlayer:GetMouse()
+    local Locking = false
+    
+    	
+    --
+    if getgenv().sexy == true then
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Zeus",
+                Text = "Already Loaded!",
+                Duration = 5
+            })
+        return
+    end
+    
+    getgenv().sexy = false
+    
+    local UserInputService = game:GetService("UserInputService")
+
+    UserInputService.InputBegan:Connect(function(keygo,ok)
+           if (not ok) then
+           if (keygo.KeyCode == getgenv().Key) then
+               if getgenv().Target == true then
+               Locking = not Locking
+               
+               if Locking then
+               Plr =  getClosestPlayerToCursor()
+                if getgenv().ChatMode then
+                    local A_1 = "Target: "..tostring(Plr.Character.Humanoid.DisplayName) local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+        	    end	
+                if getgenv().NotifMode then
+    			    game.StarterGui:SetCore("SendNotification", {
+                        Title = "";
+                        Text = "Target: "..tostring(Plr.Character.Humanoid.DisplayName);
+    
+                    })
+                end
+
+
+                getgenv().Strafe = false
+
+                getgenv().StrafeSpeed = 0.6
         
-        if Locking then
-        Plr =  getClosestPlayerToCursor()
-            if getgenv().ChatMode then
-                local A_1 = "Target: "..tostring(Plr.Character.Humanoid.DisplayName) local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
-            end	
-            if getgenv().NotifMode then
-                game.StarterGui:SetCore("SendNotification", {
-                    Title = "";
-                    Text = "Target: "..tostring(Plr.Character.Humanoid.DisplayName);
+                getgenv().StrafeLength = 10
+                
+                
+                if Strafe == true then
+                    spawn(function()
+                                    -- uwu dev forums
+                                    repeat
+                                        task.wait()
+        
+                            for i = 0, 360, StrafeSpeed do
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                    CFrame.new(Plr.Character.HumanoidRootPart.Position) *
+                                    CFrame.Angles(0, math.rad(i), 0) *
+                                    CFrame.new(StrafeLength, 0, 0)
+                                task.wait()
+                            end
+                        until Plr.Character.Humanoid.health < 1 or
+                                not Locking or
+                            Strafe == false
+                end
+            )
+        end
 
+
+
+
+
+
+
+
+    elseif not Locking then
+            if getgenv().ChatMode then
+                local A_1 = "Unlocked!" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+        	end	
+            getgenv().Strafe = false
+        if getgenv().NotifMode then
+                game.StarterGui:SetCore("SendNotification", {
+                   Title = "",
+                   Text = "Unlocked",
+                   Duration = 5
+               })
+           elseif getgenv().Target == false then
+                game.StarterGui:SetCore("SendNotification", {
+                   Title = "",
+                   Text = "Target isn't enabled",
+                   Duration = 5
+     
                 })
             end
-
-
-            getgenv().Strafe = false
-
-            getgenv().StrafeSpeed = 0.6
-    
-            getgenv().StrafeLength = 10
-            
-            
-            if Strafe == true then
-                spawn(function()
-                                -- uwu dev forums
-                                repeat
-                                    task.wait()
-    
-                        for i = 0, 360, StrafeSpeed do
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                CFrame.new(Plr.Character.HumanoidRootPart.Position) *
-                                CFrame.Angles(0, math.rad(i), 0) *
-                                CFrame.new(StrafeLength, 0, 0)
-                            task.wait()
-                        end
-                    until Plr.Character.Humanoid.health < 1 or
-                            not Locking or
-                        Strafe == false
-            end
-        )
-    end
-
-
-
-
-
-
-
-
-elseif not Locking then
-        if getgenv().ChatMode then
-            local A_1 = "Unlocked!" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
-        end	
-        getgenv().Strafe = false
-    if getgenv().NotifMode then
-            game.StarterGui:SetCore("SendNotification", {
-            Title = "",
-            Text = "Unlocked",
-            Duration = 5
-        })
-    elseif getgenv().Target == false then
-            game.StarterGui:SetCore("SendNotification", {
-            Title = "",
-            Text = "Target isn't enabled",
-            Duration = 5
-
-            })
-        end
-    end 
-end  
+        end 
+    end  
 end
 end
 end)
+	
+	function getClosestPlayerToCursor()
+		local closestPlayer
+		local shortestDistance = circle.Radius
 
-function getClosestPlayerToCursor()
-    local closestPlayer
-    local shortestDistance = circle.Radius
-
-    for i, v in pairs(game.Players:GetPlayers()) do
-        if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("LowerTorso") then
-            local pos = CC:WorldToViewportPoint(v.Character.PrimaryPart.Position)
-            local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(LocalMouse.X, LocalMouse.Y)).magnitude
-            if magnitude < shortestDistance then
-                closestPlayer = v
-                shortestDistance = magnitude
-            end
-        end
-    end
-    return closestPlayer
-end
+		for i, v in pairs(game.Players:GetPlayers()) do
+			if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("LowerTorso") then
+				local pos = CC:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+				local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(LocalMouse.X, LocalMouse.Y)).magnitude
+				if magnitude < shortestDistance then
+					closestPlayer = v
+					shortestDistance = magnitude
+				end
+			end
+		end
+		return closestPlayer
+	end
 --
 if getgenv().PartMode then
-game:GetService"RunService".Stepped:connect(function()
-    if Locking and Plr.Character and Plr.Character:FindFirstChild("LowerTorso") then
-        Tracer.CFrame = CFrame.new(Plr.Character.LowerTorso.Position+(Plr.Character.LowerTorso.Velocity*Prediction))
-    else
-        Tracer.CFrame = CFrame.new(0, 9999, 0)
+	game:GetService"RunService".Stepped:connect(function()
+		if Locking and Plr.Character and Plr.Character:FindFirstChild("LowerTorso") then
+			Tracer.CFrame = CFrame.new(Plr.Character.LowerTorso.Position+(Plr.Character.LowerTorso.Velocity*Prediction))
+		else
+			Tracer.CFrame = CFrame.new(0, 9999, 0)
 
-    end
-end)
+		end
+	end)
 end
 
-
-
---
-local rawmetatable = getrawmetatable(game)
-local old = rawmetatable.__namecall
-setreadonly(rawmetatable, false)
-rawmetatable.__namecall = newcclosure(function(...)
-    local args = {...}
-    if Locking and getnamecallmethod() == "FireServer" and args[2] == "UpdateMousePos" then
-        args[3] = Plr.Character[getgenv().Partz].Position+(Plr.Character[getgenv().Partz].Velocity*Prediction)
-        return old(unpack(args))
-    end
-    return old(...)
-end)
+    
+    
+    --
+	local rawmetatable = getrawmetatable(game)
+	local old = rawmetatable.__namecall
+	setreadonly(rawmetatable, false)
+	rawmetatable.__namecall = newcclosure(function(...)
+		local args = {...}
+		if Locking and getnamecallmethod() == "FireServer" and args[2] == "UpdateMousePos" then
+			args[3] = Plr.Character[getgenv().Partz].Position+(Plr.Character[getgenv().Partz].Velocity*Prediction)
+			return old(unpack(args))
+		end
+		return old(...)
+	end)
 
 
 if getgenv().AirshotFunccc == true then
-        if Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
-            getgenv().Partz = "RightFoot"
-        else
-            Plr.Character:WaitForChild("Humanoid").StateChanged:Connect(function(old,new)
-                if new == Enum.HumanoidStateType.Freefall then
+            if Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
                 getgenv().Partz = "RightFoot"
-                else
-                    getgenv().Partz = "LowerTorso"
-                end
-            end)
-        end
+            else
+                Plr.Character:WaitForChild("Humanoid").StateChanged:Connect(function(old,new)
+                    if new == Enum.HumanoidStateType.Freefall then
+                    getgenv().Partz = "RightFoot"
+                    else
+                        getgenv().Partz = "LowerTorso"
+                    end
+                end)
+            end
 end
 ---
-while wait() do
-    if getgenv().AutoPrediction == true then
-        local pingvalue = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-        local split = string.split(pingvalue,'(')
-        local ping = tonumber(split[1])
-        if ping < 130 then
-            getgenv().Prediction = 0.151
-        elseif ping < 125 then
-            getgenv().Prediction = 0.149
-        elseif ping < 110 then
-            getgenv().Prediction = 0.146
-        elseif ping < 105 then
-            getgenv().Prediction = 0.138
-        elseif ping < 90 then
-            getgenv().Prediction = 0.136
-        elseif ping < 80 then
-            getgenv().Prediction = 0.134
-        elseif ping < 70 then
-            getgenv().Prediction = 0.131
-        elseif ping < 60 then
-            getgenv().Prediction = 0.1229
-        elseif ping < 50 then
-            getgenv().Prediction = 0.1225
-        elseif ping < 40 then
-            getgenv().Prediction = 0.1256
+	while wait() do
+        if getgenv().AutoPrediction == true then
+            local pingvalue = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+            local split = string.split(pingvalue,'(')
+            local ping = tonumber(split[1])
+            if ping < 130 then
+                getgenv().Prediction = 0.151
+            elseif ping < 125 then
+                getgenv().Prediction = 0.149
+            elseif ping < 110 then
+                getgenv().Prediction = 0.146
+            elseif ping < 105 then
+                getgenv().Prediction = 0.138
+            elseif ping < 90 then
+                getgenv().Prediction = 0.136
+            elseif ping < 80 then
+                getgenv().Prediction = 0.134
+            elseif ping < 70 then
+                getgenv().Prediction = 0.131
+            elseif ping < 60 then
+                getgenv().Prediction = 0.1229
+            elseif ping < 50 then
+                getgenv().Prediction = 0.1225
+            elseif ping < 40 then
+                getgenv().Prediction = 0.1256
+            end
         end
-    end
-    end
+        end
+end
+end
             end})
-            tg:textbox({name = "Input Prediction",def = "0.121",placeholder = "input prediction for the target aim.",callback = function(bool)
-                getgenv().Prediction = bool
+            tg:textbox({name = "Input Prediction",def = "0.142",placeholder = "input prediction for the target aim.",callback = function(bool)
+                getgenv().PredictionVelocity = bool
             end})
             tg:toggle({name = "Airshot Function",def = false,callback = function(bool)
                 getgenv().AirshotFunccc = bool
             end})
             tg:toggle({name = "NotifMode",def = false,callback = function(bool)
-                getgenv().NotifMode = bool
-            end})
-            tg:toggle({name = "ChatMode",def = false,callback = function(bool)
-                getgenv().ChatMode = bool
+                getgenv().Notify = bool
             end})
             tg:dropdown({name = "AimPart",def = "HumanoidRootPart",max = 1,options = {"Head","UpperTorso","HumanoidRootPart","LowerTorso"},callback = function(part)
                 getgenv().Partz = part
             end})
-            tg:button({name = "Resolver",callback = function()
-                local RunService = game:GetService("RunService")
-                RunService.Heartbeat:Connect(function()
-                    pcall(function()
-                        for i,v in pairs(game.Players:GetChildren()) do
-                            if v.Name ~= game.Players.LocalPlayer.Name then
-                                local hrp = v.Character.HumanoidRootPart
-                                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-                                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-                            end
-                        end
-                    end)
-                end)
-            end})
+tg:button({name = "Resolver",callback = function()
+     local RunService = game:GetService("RunService")
+
+RunService.Heartbeat:Connect(function()
+    pcall(function()
+        for i,v in pairs(game.Players:GetChildren()) do
+            if v.Name ~= game.Players.LocalPlayer.Name then
+                local hrp = v.Character.HumanoidRootPart
+                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)    
+                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)   
+            end
+        end
+    end)
+end)
+end})
             tg:toggle({name = "Auto Prediction",def = false,callback = function(bool)
                 getgenv().AutoPrediction = bool
             end})
@@ -720,20 +727,21 @@ while wait() do
             cl:toggle({name = "Smoothness",def = false,callback = function(bool)
                 getgenv().Smoothness = bool
             end})
-        cl:button({name = "Resolver",callback = function()
-            local RunService = game:GetService("RunService")
-            RunService.Heartbeat:Connect(function()
-                pcall(function()
-                    for i,v in pairs(game.Players:GetChildren()) do
-                        if v.Name ~= game.Players.LocalPlayer.Name then
-                            local hrp = v.Character.HumanoidRootPart
-                            hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-                            hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-                        end
-                    end
-                end)
-            end)
-        end})
+cl:button({name = "Resolver",callback = function()
+     local RunService = game:GetService("RunService")
+
+RunService.Heartbeat:Connect(function()
+    pcall(function()
+        for i,v in pairs(game.Players:GetChildren()) do
+            if v.Name ~= game.Players.LocalPlayer.Name then
+                local hrp = v.Character.HumanoidRootPart
+                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)    
+                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)   
+            end
+        end
+    end)
+end)
+end})
         cl:textbox({name = "Smoothness Amount",def = "0",placeholder = "Enter Smoothness Amount",callback = function(bool)
              getgenv().SmoothnessAmount = bool
         end})
@@ -806,20 +814,21 @@ while wait() do
         sa:slider({name = "Hitchance",def = 0, max = 100,min = 0,rounding = true,ticking = false,measuring = "",callback = function(bool)
         Aiming.HitChance = bool
     end})
-        sa:button({name = "Resolver",callback = function()
-        local RunService = game:GetService("RunService")
-        RunService.Heartbeat:Connect(function()
-            pcall(function()
-                for i,v in pairs(game.Players:GetChildren()) do
-                    if v.Name ~= game.Players.LocalPlayer.Name then
-                        local hrp = v.Character.HumanoidRootPart
-                        hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-                        hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
-                    end
-                end
-            end)
-        end)
-        end})
+sa:button({name = "Resolver",callback = function()
+     local RunService = game:GetService("RunService")
+
+RunService.Heartbeat:Connect(function()
+    pcall(function()
+        for i,v in pairs(game.Players:GetChildren()) do
+            if v.Name ~= game.Players.LocalPlayer.Name then
+                local hrp = v.Character.HumanoidRootPart
+                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)    
+                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)   
+            end
+        end
+    end)
+end)
+end})
 
 
 
