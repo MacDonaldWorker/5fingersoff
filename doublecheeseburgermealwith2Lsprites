@@ -302,7 +302,17 @@ end)
 
 
 
+getgenv().Sky = false
+getgenv().SkyAmount = 0
 
+game:GetService("RunService").heartbeat:Connect(function()
+    if getgenv().Sky ~= false then 
+    local vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,      getgenv().SkyAmount,0) 
+    game:GetService("RunService").RenderStepped:Wait()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = vel
+    end 
+end)
    
 
 
@@ -348,6 +358,7 @@ end)
             local aa1 = aa:section({name = "Anti-Aim",side = "left",size = 90})
             local aa3 = aa:section({name = "Confusion-AA",side = "left",size = 90})
             local aa2 = aa:section({name = "Desync-AA",side = "Right",size = 140})
+            local aa4 = aa:section({name = "Sky-AA",side = "Right",size = 140})
             local m1 = m:section({name = "Misc1",side = "left",size = 150})
             local m2 = m:section({name = "Misc2",side = "Right",size = 80})
             local m3 = m:section({name = "Tp to player",side = "left",size = 90})
@@ -376,16 +387,16 @@ end)
             -------target aim-------
             
             
-            tg:button({name = "Target-Aim (Q)",callback = function()
+tg:button({name = "Target-Aim(Q)",callback = function()
+      getgenv().Target = true
 
- getgenv().Target = true
 
     getgenv().Key = Enum.KeyCode.Q
     getgenv().Prediction = 0.121
     getgenv().ChatMode = false
     getgenv().NotifMode = false
     getgenv().PartMode = true
-    getgenv().AirshotFunccc = false
+    getgenv().AirshotFunccc = true
     getgenv().Partz = "HumanoidRootPart"
     getgenv().AutoPrediction = false
 
@@ -629,9 +640,7 @@ end
             end
         end
         end
-end
-end
-            end})
+end})
             tg:textbox({name = "Input Prediction",def = "0.142",placeholder = "input prediction for the target aim.",callback = function(bool)
                 getgenv().PredictionVelocity = bool
             end})
@@ -645,15 +654,14 @@ end
                 getgenv().Partz = part
             end})
 tg:button({name = "Resolver",callback = function()
-     local RunService = game:GetService("RunService")
-
+local RunService = game:GetService("RunService")
 RunService.Heartbeat:Connect(function()
     pcall(function()
         for i,v in pairs(game.Players:GetChildren()) do
             if v.Name ~= game.Players.LocalPlayer.Name then
                 local hrp = v.Character.HumanoidRootPart
-                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)    
-                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)   
+                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
+                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
             end
         end
     end)
@@ -728,15 +736,14 @@ end})
                 getgenv().Smoothness = bool
             end})
 cl:button({name = "Resolver",callback = function()
-     local RunService = game:GetService("RunService")
-
+local RunService = game:GetService("RunService")
 RunService.Heartbeat:Connect(function()
     pcall(function()
         for i,v in pairs(game.Players:GetChildren()) do
             if v.Name ~= game.Players.LocalPlayer.Name then
                 local hrp = v.Character.HumanoidRootPart
-                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)    
-                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)   
+                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
+                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
             end
         end
     end)
@@ -815,15 +822,14 @@ end})
         Aiming.HitChance = bool
     end})
 sa:button({name = "Resolver",callback = function()
-     local RunService = game:GetService("RunService")
-
+local RunService = game:GetService("RunService")
 RunService.Heartbeat:Connect(function()
     pcall(function()
         for i,v in pairs(game.Players:GetChildren()) do
             if v.Name ~= game.Players.LocalPlayer.Name then
                 local hrp = v.Character.HumanoidRootPart
-                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)    
-                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)   
+                hrp.Velocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
+                hrp.AssemblyLinearVelocity = Vector3.new(hrp.Velocity.X, 0, hrp.Velocity.Z)
             end
         end
     end)
@@ -861,8 +867,8 @@ end})
 local picker1 = vs:colorpicker({name = "ESP Color",cpname = nil,def = Color3.fromRGB(255,255,255),callback = function(e)
      ESP.Color = e
 end})
-local picker2 = vs:colorpicker({name = "Tracer Color",cpname = nil,def = Color3.fromRGB(255,255,255),callback = function(ep)
-     _G.TracerColor = ep
+local picker2 = vs:colorpicker({name = "Tracer Color",cpname = nil,def = Color3.fromRGB(255,255,255),callback = function(e)
+     _G.TracerColor = e
 end})
 vs:slider({name = "Tracer Transparency",def = 0, max = 10,min = 0.1,rounding = false,ticking = true,measuring = "",callback = function(e)
     _G.TracerTransparency = e
@@ -1105,9 +1111,13 @@ end})
 
 
 
+aa4:toggle({name = "Sky-AA",def = false,callback = function(bool)
+getgenv().Sky = bool
+end})
 
-
-
+aa4:textbox({name = "Amount",def = "0",placeholder = "Enter Num",callback = function(bool)
+     getgenv().SkyAmount = bool
+end})
 
 
 
